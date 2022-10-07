@@ -1,0 +1,85 @@
+<script>
+    setTimeout(function () {
+        if (window.location.href.includes('?type=') && window.location.href.includes('&term=')) {
+            let type = window.location.href.split('?type=')[1].split('&term=')[0];
+            let term = decodeURIComponent(window.location.href.split('?type=')[1].split('&term=')[1]);
+            document.getElementById('select').value = type;
+            document.getElementById('search').value = term;
+            search();
+        }
+    }, 100);
+    function search() {
+        if (isNaN(parseFloat(document.getElementById('search').value)) || parseFloat(document.getElementById('search').value) != document.getElementById('search').value) {
+            fetch('/api/search/' + document.getElementById('select').value + '/' + document.getElementById('search').value)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('results').innerHTML = '';
+                    if (data.error) {
+                        alert('Error: ' + data.error);
+                    } else {
+                        if (document.getElementById('select').value == "game") {
+                            data.forEach(item => {
+                                document.getElementById('results').innerHTML += `
+                        <div class="card">
+                            <img src="${item.Thumbnail}" class="img_${document.getElementById('select').value}" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">${item.Name}</h5>
+                                <hr>
+                                <p class="card-text">${item.Visits} Visits</p>
+                                <p class="card-text">${item.Playing} Playing</p>
+                                <a href="${document.getElementById('select').value}/${item.ID}" class="btn btn-primary">View</a>
+                            </div>
+                        </div>
+                        `;
+                            })
+                        } else if (document.getElementById('select').value == "user") {
+                            data.forEach(item => {
+                                document.getElementById('results').innerHTML += `
+                        <div class="card">
+                            <img src="https://polytoria.com/assets/thumbnails/avatars/${item.avatar}.png" class="img_${document.getElementById('select').value}" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">${item.username}</h5>
+                                <hr>
+                                <p class="card-text">${item.profileViews} Profile Views</p>
+                                <p class="card-text">${item.forumPosts} Forum Posts</p>
+                                <a href="${document.getElementById('select').value}/${item.id}" class="btn btn-primary">View</a>
+                            </div>
+                        </div>
+                        `;
+                            })
+                        } else if (document.getElementById('select').value == "guild") {
+                            data.forEach(item => {
+                                document.getElementById('results').innerHTML += `
+                        <div class="card">
+                            <img src="https://polytoria.com/assets/thumbnails/guilds/${item.id}.png" class="img_${document.getElementById('select').value}" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">${item.name}</h5>
+                                <hr>
+                                <p class="card-text">${item.membercount} Members</p>
+                                <a href="${document.getElementById('select').value}/${item.id}" class="btn btn-primary">View</a>
+                            </div>
+                        </div>
+                        `;
+                            })
+                        } else if (document.getElementById('select').value == "item") {
+                            data.forEach(item => {
+                                document.getElementById('results').innerHTML += `
+                        <div class="card">
+                            <img src="https://polytoria.com/assets/thumbnails/catalog/${item.AssetID}.png?v=1" class="img_${document.getElementById('select').value}" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">${item.AssetName}</h5>
+                                <hr>
+                                <p class="card-text">Price: ${item.Price}</p>
+                                <a href="${document.getElementById('select').value}/${item.AssetID}" class="btn btn-primary">View</a>
+                            </div>
+                        </div>
+                        `;
+                            })
+                        }
+                    }
+                });
+        } else {
+            window.location.href = '/'+document.getElementById('select').value+'/'+document.getElementById('search').value;
+        }
+    }
+</script>

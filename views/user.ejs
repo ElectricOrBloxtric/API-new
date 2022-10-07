@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="title" content="BGTrack">
+    <meta name="description" content="<%=user.name%>'s Stats on Polytoria!">
+    <meta property="twitter:title" content="BGTrack">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://polytoria.com/assets/thumbnails/avatars/<%=user.stats.AvatarHash%>.png">
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url"
+        content="https://polytoria.com/assets/thumbnails/avatars/<%=user.stats.AvatarHash%>.png">
+    <link rel="shortcut icon" href="favicon.ico">
+    <meta property="og:description" content="<%=user.name%>'s Stats on Polytoria!">
+    <meta property="twitter:description" content="<%=user.name%>'s Stats on Polytoria!">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="shortcut icon" href="../favicon.ico">
+    <title>
+        <%=user.name%>'s User Stats - BGTrack
+    </title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+        integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <%- include('css/user.ejs') %>
+        <%- include('js/tracking.ejs') %>
+</head>
+
+<body>
+        <%- include('navbar.ejs') %>
+            <br>
+            <br>
+            <center>
+                <div class="main">
+                    <img src="https://polytoria.com/assets/thumbnails/avatars/<%=user.stats.AvatarHash%>.png"
+                        class="profile" id="image">
+                    <h1 class="name" id="name">
+                        <%=user.name%>
+                    </h1>
+                    <div class="stats">
+                        <div>
+                            <h1 class="stat_value" id="profileViews">
+                                <%=user.stats.ProfileViews.toString().replace( /(\d)(?=(\d{3})+(?!\d))/g, '$1,' );%>
+                            </h1>
+                            <h2 class="stat_title">Profile Views</h2>
+                        </div>
+                        <div>
+                            <h1 class="stat_value" id="forumPosts">
+                                <%=user.stats.ForumPosts.toString().replace( /(\d)(?=(\d{3})+(?!\d))/g, '$1,' );%>
+                            </h1>
+                            <h2 class="stat_title">Forum Posts</h2>
+                        </div>
+                        <div>
+                            <h1 class="stat_value" id="itemSales">
+                                <%=user.stats.ItemSales.toString().replace( /(\d)(?=(\d{3})+(?!\d))/g, '$1,' );%>
+                            </h1>
+                            <h2 class="stat_title">Item Sales</h2>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="daily_stats">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Date</th>
+                                <th scope="col">Profile Views</th>
+                                <th scope="col">Item Sales</th>
+                                <th scope="col">Forum Posts</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% let ProfileViews=0; %>
+                                <% let ItemSales=0; %>
+                                    <% let ForumPosts=0; %>
+                                        <% for(var i=0; i < user.data.length; i++) { %>
+                                            <tr>
+                                                <th scope="row">
+                                                    <%=user.data[i].date%>
+                                                </th>
+                                                <td>
+                                                    <% if (parseFloat(user.data[i].ProfileViews) - ProfileViews <=0) {
+                                                        %>
+                                                        <%=(parseFloat(user.data[i].ProfileViews) -
+                                                            ProfileViews).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,'
+                                                            );%>
+                                                            <% } else { %>
+                                                                +<%=(parseFloat(user.data[i].ProfileViews) -
+                                                                    ProfileViews).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,'
+                                                                    );%>
+                                                                    <% } %>
+                                                                        <% ProfileViews=parseFloat(user.data[i].ProfileViews);
+                                                                            %>
+                                                </td>
+                                                <td>
+                                                    <% if (parseFloat(user.data[i].ItemSales) - ItemSales <=0) { %>
+                                                        <%=(parseFloat(user.data[i].ItemSales) -
+                                                            ItemSales).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,'
+                                                            );%>
+                                                            <% } else { %>
+                                                                +<%=(parseFloat(user.data[i].ItemSales) -
+                                                                    ItemSales).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,'
+                                                                    );%>
+                                                                    <% } %>
+                                                                        <% ItemSales=parseFloat(user.data[i].ItemSales);
+                                                                            %>
+                                                </td>
+                                                <td>
+                                                    <% if (parseFloat(user.data[i].ForumPosts) - ForumPosts <=0) { %>
+                                                        <%=(parseFloat(user.data[i].ForumPosts) -
+                                                            ForumPosts).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,'
+                                                            );%>
+                                                            <% } else { %>
+                                                                +<%=(parseFloat(user.data[i].ForumPosts) -
+                                                                    ForumPosts).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,'
+                                                                    );%>
+                                                                    <% } %>
+                                                                        <% ForumPosts=parseFloat(user.data[i].ForumPosts);
+                                                                            %>
+                                                </td>
+                                            </tr>
+                                            <% } %>
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">
+                                                            <%=user.data[user.data.length-1].date%>
+                                                        </th>
+                                                        <th scope="col">
+                                                            <%=user.data[user.data.length-1].ProfileViews.toString().replace(
+                                                                /(\d)(?=(\d{3})+(?!\d))/g, '$1,' );%>
+                                                        </th>
+                                                        <th scope="col">
+                                                            <%=user.data[user.data.length-1].ItemSales.toString().replace(
+                                                                /(\d)(?=(\d{3})+(?!\d))/g, '$1,' );%>
+                                                        </th>
+                                                        <th scope="col">
+                                                            <%=user.data[user.data.length-1].ForumPosts.toString().replace(
+                                                                /(\d)(?=(\d{3})+(?!\d))/g, '$1,' );%>
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                        </tbody>
+                </div>
+            </center>
+</body>
+<%- include('js/jquery.ejs') %>
+    <%- include('js/search.ejs') %>
+        <%- include('js/user.ejs') %>
+
+</html>

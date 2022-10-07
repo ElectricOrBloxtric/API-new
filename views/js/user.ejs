@@ -1,0 +1,20 @@
+<script>
+    function search() {
+        window.location.href = '/?type=' + document.getElementById('select').value + '&term=' + document.getElementById('search').value;
+    }
+    async function update() {
+        await fetch('/api/users/<%=user.id%>')
+            .then(response => response.json())
+            .then(data => {
+                data = data.data;
+                if (data) {
+                    document.getElementById('name').innerHTML = data.Username;
+                    document.getElementById('profileViews').innerHTML = data.ProfileViews.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+                    document.getElementById('forumPosts').innerHTML = data.ForumPosts.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+                    document.getElementById('itemSales').innerHTML = data.ItemSales.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+                    document.getElementById('image').src = 'https://polytoria.com/assets/thumbnails/avatars/' + data.AvatarHash + '.png';
+                }
+            })
+    }
+    setInterval(update, 2000);
+</script>

@@ -1,0 +1,20 @@
+<script>
+    function search() {
+        window.location.href = '/?type=' + document.getElementById('select').value + '&term=' + document.getElementById('search').value;
+    }
+    async function update() {
+        await fetch('/api/games/<%=game.id%>')
+            .then(response => response.json())
+            .then(data => {
+                data = data.data;
+                if (data) {
+                    document.getElementById('name').innerHTML = data.Name;
+                    document.getElementById('visits').innerHTML = data.Visits.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+                    document.getElementById('likes').innerHTML = data.Likes.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+                    document.getElementById('dislikes').innerHTML = data.Dislikes.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+                    document.getElementById('image').src = data.Thumbnail;
+                }
+            })
+    }
+    setInterval(update, 2000);
+</script>

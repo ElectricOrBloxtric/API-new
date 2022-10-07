@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="title" content="BGTrack">
+    <meta name="description" content="<%=item.name%>'s Stats on Polytoria!">
+    <meta property="twitter:title" content="BGTrack">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://polytoria.com/assets/thumbnails/catalog/<%=item.id%>.png">
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url"
+        content="https://polytoria.com/assets/thumbnails/catalog/<%=item.id%>.png">
+    <link rel="shortcut icon" href="favicon.ico">
+    <meta property="og:description" content="<%=item.name%>'s Stats on Polytoria!">
+    <meta property="twitter:description" content="<%=item.name%>'s Stats on Polytoria!">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title><%=item.name%>'s Item Stats - BGTrack</title>
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+        integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <%- include('css/item.ejs') %>
+    <%- include('js/tracking.ejs') %>
+</head>
+
+<body>
+    <%- include('navbar.ejs') %>
+        <br>
+        <br>
+        <center>
+            <div class="main">
+                <img src="<%=item.stats.Thumbnail%>" class="profile" id="image">
+                <h1 class="name" id="name">
+                    <%=item.stats.Name%>
+                </h1>
+                <div class="stats">
+                    <div>
+                        <h1 class="stat_value" id="sales">
+                            <%=item.stats.Sales.toString().replace( /(\d)(?=(\d{3})+(?!\d))/g, '$1,' );%>
+                        </h1>
+                        <h2 class="stat_title">Sales</h2>
+                    </div>
+                    <div>
+                        <h1 class="stat_value" id="favorites">
+                            <%=item.stats.Favorites.toString().replace( /(\d)(?=(\d{3})+(?!\d))/g, '$1,' );%>
+                        </h1>
+                        <h2 class="stat_title">Favorites</h2>
+                    </div>
+                    <div>
+                        <h1 class="stat_value" id="price">
+                            <%=item.stats.Price.toString().replace( /(\d)(?=(\d{3})+(?!\d))/g, '$1,' );%>
+                        </h1>
+                        <h2 class="stat_title">Price</h2>
+                    </div>
+                    <div>
+                        <h1 class="stat_value" id="owners">
+                            <%=item.data[0].Owners.toString().replace( /(\d)(?=(\d{3})+(?!\d))/g, '$1,' );%>
+                        </h1>
+                        <h2 class="stat_title">Owners</h2>
+                    </div>
+                </div>
+                <br>
+                <div class="daily_stats">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Date</th>
+                                <th scope="col">Sales</th>
+                                <th scope="col">Favorites</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Owners</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% let Sales=0; %>
+                                <% let Favorites=0; %>
+                                    <% let Price=0; %>
+                                        <% let Owners=0; %>
+                                            <% for(var i=0; i < item.data.length; i++) { %>
+                                                <tr>
+                                                    <th scope="row">
+                                                        <%=item.data[i].date%>
+                                                    </th>
+                                                    <td>
+                                                        <% if (parseFloat(item.data[i].Sales) - Sales <=0) { %>
+                                                            <%=(parseFloat(item.data[i].Sales) -
+                                                                Sales).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,'
+                                                                );%>
+                                                                <% } else { %>
+                                                                    +<%=(parseFloat(item.data[i].Sales) -
+                                                                        Sales).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,'
+                                                                        );%>
+                                                                        <% } %>
+                                                                            <% Sales=parseFloat(item.data[i].Sales); %>
+                                                    </td>
+                                                    <td>
+                                                        <% if (parseFloat(item.data[i].Favorites) - Favorites <=0) { %>
+                                                            <%=(parseFloat(item.data[i].Favorites) -
+                                                                Favorites).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,'
+                                                                );%>
+                                                                <% } else { %>
+                                                                    +<%=(parseFloat(item.data[i].Favorites) -
+                                                                        Favorites).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,'
+                                                                        );%>
+                                                                        <% } %>
+                                                                            <% Favorites=parseFloat(item.data[i].Favorites);
+                                                                                %>
+                                                    </td>
+                                                    <td>
+                                                        <% if (parseFloat(item.data[i].Price) - Price <=0) { %>
+                                                            <%=(parseFloat(item.data[i].Price) -
+                                                                Price).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,'
+                                                                );%>
+                                                                <% } else { %>
+                                                                    +<%=(parseFloat(item.data[i].Price) -
+                                                                        Price).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,'
+                                                                        );%>
+                                                                        <% } %>
+                                                                            <% Price=parseFloat(item.data[i].Price); %>
+                                                    </td>
+                                                    <td>
+                                                        <% if (parseFloat(item.data[i].Owners) - Owners <=0) { %>
+                                                            <%=(parseFloat(item.data[i].Owners) -
+                                                                Owners).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,'
+                                                                );%>
+                                                                <% } else { %>
+                                                                    +<%=(parseFloat(item.data[i].Owners) -
+                                                                        Owners).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,'
+                                                                        );%>
+                                                                        <% } %>
+                                                                            <% Owners=parseFloat(item.data[i].Owners);
+                                                                                %>
+                                                    </td>
+                                                    <%}%>
+
+                                                        <thead>
+                                                            <tr>
+                                                                <th scope="col">
+                                                                    <%=item.data[item.data.length-1].date%>
+                                                                </th>
+                                                                <th scope="col">
+                                                                    <%=item.data[item.data.length-1].Sales.toString().replace(
+                                                                        /(\d)(?=(\d{3})+(?!\d))/g, '$1,' );%>
+                                                                </th>
+                                                                <th scope="col">
+                                                                    <%=item.data[item.data.length-1].Favorites.toString().replace(
+                                                                        /(\d)(?=(\d{3})+(?!\d))/g, '$1,' );%>
+                                                                </th>
+                                                                <th scope="col">
+                                                                    <%=item.data[item.data.length-1].Price.toString().replace(
+                                                                        /(\d)(?=(\d{3})+(?!\d))/g, '$1,' );%>
+                                                                </th>
+                                                                <th scope="col">
+                                                                    <%=item.data[item.data.length-1].Owners.toString().replace(
+                                                                        /(\d)(?=(\d{3})+(?!\d))/g, '$1,' );%>
+                                                                </th>
+                                                            </tr>
+                                                        </thead>
+                        </tbody>
+                </div>
+        </center>
+</body>
+<%- include('js/jquery.ejs') %>
+    <%- include('js/search.ejs') %>
+        <%- include('js/item.ejs') %>
+
+</html>

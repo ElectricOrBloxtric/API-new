@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="title" content="BGTrack">
+    <meta name="description" content="<%=game.name%>'s Stats on Polytoria!">
+    <meta property="twitter:title" content="BGTrack">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://polytoria.com/assets/thumbnails/games/<%=game.id%>.png">
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url"
+        content="https://polytoria.com/assets/thumbnails/games/<%=game.id%>.png">
+    <link rel="shortcut icon" href="favicon.ico">
+    <meta property="og:description" content="<%=game.name%>'s Stats on Polytoria!">
+    <meta property="twitter:description" content="<%=game.name%>'s Stats on Polytoria!">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title><%=game.name%>'s Game Stats - BGTrack</title>
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+        integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <%- include('css/game.ejs') %>
+    <%- include('js/tracking.ejs') %>
+</head>
+
+<body>
+    <%- include('navbar.ejs') %>
+        <br>
+        <br>
+        <center>
+            <div class="main">
+                <img src="<%=game.stats.Thumbnail%>" class="profile" id="image">
+                <h1 class="name" id="name">
+                    <%=game.stats.Name%>
+                </h1>
+                <div class="stats">
+                    <div>
+                        <h1 class="stat_value" id="visits">
+                            <%=game.stats.Visits.toString().replace( /(\d)(?=(\d{3})+(?!\d))/g, '$1,' );%>
+                        </h1>
+                        <h2 class="stat_title">Visits</h2>
+                    </div>
+                    <div>
+                        <h1 class="stat_value" id="likes">
+                            <%=game.stats.Likes.toString().replace( /(\d)(?=(\d{3})+(?!\d))/g, '$1,' );%>
+                        </h1>
+                        <h2 class="stat_title">Likes</h2>
+                    </div>
+                    <div>
+                        <h1 class="stat_value" id="dislikes">
+                            <%=game.stats.Dislikes.toString().replace( /(\d)(?=(\d{3})+(?!\d))/g, '$1,' );%>
+                        </h1>
+                        <h2 class="stat_title">Dislikes</h2>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="daily_stats">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Date</th>
+                            <th scope="col">Visits</th>
+                            <th scope="col">Likes</th>
+                            <th scope="col">Dislikes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% let Visits=0; %>
+                            <% let Likes=0; %>
+                                <% let Dislikes=0; %>
+                                    <% for(var i=0; i < game.data.length; i++) { %>
+                                        <tr>
+                                            <th scope="row">
+                                                <%=game.data[i].date%>
+                                            </th>
+                                            <td>
+                                                <% if (parseFloat(game.data[i].Visits) - Visits <=0) { %>
+                                                    <%=(parseFloat(game.data[i].Visits) -
+                                                        Visits).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,' );%>
+                                                        <% } else { %>
+                                                            +<%=(parseFloat(game.data[i].Visits) -
+                                                                Visits).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,'
+                                                                );%>
+                                                                <% } %>
+                                                                    <% Visits=parseFloat(game.data[i].Visits); %>
+                                            </td>
+                                            <td>
+                                                <% if (parseFloat(game.data[i].Likes) - Likes <=0) { %>
+                                                    <%=(parseFloat(game.data[i].Likes) -
+                                                        Likes).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,' );%>
+                                                        <% } else { %>
+                                                            +<%=(parseFloat(game.data[i].Likes) -
+                                                                Likes).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,'
+                                                                );%>
+                                                                <% } %>
+                                                                    <% Likes=parseFloat(game.data[i].Likes); %>
+                                            </td>
+                                            <td>
+                                                <% if (parseFloat(game.data[i].Dislikes) - Dislikes <=0) { %>
+                                                    <%=(parseFloat(game.data[i].Dislikes) -
+                                                        Dislikes).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,'
+                                                        );%>
+                                                        <% } else { %>
+                                                            +<%=(parseFloat(game.data[i].Dislikes) -
+                                                                Dislikes).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,'
+                                                                );%>
+                                                                <% } %>
+                                                                    <% Dislikes=parseFloat(game.data[i].Dislikes); %>
+                                            </td>
+                                        </tr>
+                                        <% } %>
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">
+                                                        <%=game.data[game.data.length-1].date%>
+                                                    </th>
+                                                    <th scope="col">
+                                                        <%=game.data[game.data.length-1].Visits.toString().replace(
+                                                            /(\d)(?=(\d{3})+(?!\d))/g, '$1,' );%>
+                                                    </th>
+                                                    <th scope="col">
+                                                        <%=game.data[game.data.length-1].Likes.toString().replace(
+                                                            /(\d)(?=(\d{3})+(?!\d))/g, '$1,' );%>
+                                                    </th>
+                                                    <th scope="col">
+                                                        <%=game.data[game.data.length-1].Dislikes.toString().replace(
+                                                            /(\d)(?=(\d{3})+(?!\d))/g, '$1,' );%>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                    </tbody>
+            </div>
+        </center>
+</body>
+<%- include('js/jquery.ejs') %>
+    <%- include('js/search.ejs') %>
+        <%- include('js/game.ejs') %>
+
+</html>

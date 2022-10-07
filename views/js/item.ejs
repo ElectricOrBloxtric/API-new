@@ -1,0 +1,25 @@
+<script>
+    function search() {
+        window.location.href = '/?type=' + document.getElementById('select').value + '&term=' + document.getElementById('search').value;
+    }
+    async function update() {
+        await fetch('/api/items/<%=item.id%>')
+            .then(response => response.json())
+            .then(data => {
+                data = data.data;
+                if (data) {
+                    document.getElementById('name').innerHTML = data.Name;
+                    document.getElementById('sales').innerHTML = data.Sales.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+                    document.getElementById('favorites').innerHTML = data.Favorites.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+                    document.getElementById('price').innerHTML = data.Price.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+                    document.getElementById('owners').innerHTML = data.Owners.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+                    document.getElementById('image').src = data.Thumbnail;
+                }
+            })
+    }
+    setInterval(update, 2000);
+    //sales
+    //favorites
+    //price
+    //owners
+</script>

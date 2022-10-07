@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="title" content="BGTrack">
+    <meta name="description" content="Search for 10K+ Users' or Games'
+    Stats on Polytoria!">
+    <meta property="twitter:title" content="BGTrack">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="./logo.png">
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="./logo.png">
+    <meta property="og:description" content="Search for 10K+ Users' or Games'
+    Stats on Polytoria!">
+    <meta property="twitter:description" content="Search for 10K+ Users' or Games'
+    Stats on Polytoria!">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>BGTrack</title>
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+        integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <%- include('css/index.ejs') %>
+    <%- include('js/tracking.ejs') %>
+</head>
+
+<body>
+    <div class="navbar">
+        <a href="/"><img src="/images/banner.png" alt="BGTrack Logo" class="banner"></a>
+    </div>
+    <br>
+    <br>
+    <center>
+        <h1 class="title">Search for 10K+ Users' or Games'</h1>
+        <h1 class="title">Stats on Polytoria!</h1>
+        <br>
+        <div class="search-container">
+            <input type="text" class="search-box" placeholder="Search or Direct ID" id="search">
+            <button class="search-button" onclick="search()">
+                <img src="/images/search.svg" alt="Search Icon" class="search-icon">
+            </button>
+          </div>
+          <select class="select" id="select">
+            <option value="user">User</option>
+            <option value="game">Game</option>
+            <option value="item">Item</option>
+            <option value="guild">Guild</option>
+          </select>
+          <div class="results" id="results"></div>
+          <h2>We Track...</h2>
+          <div class="stats">
+            <div>
+                <%= stats.stats.users.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,') %> Users
+            </div>
+            <div>
+                <%= stats.stats.games.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,') %> Games
+            </div>
+            <div>
+                <%= stats.stats.items.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,') %> Items
+            </div>
+            <div>
+                <%= stats.stats.guilds.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,') %> Guilds
+            </div>
+          </div>
+    </center>
+</body>
+<%- include('js/jquery.ejs') %>
+<%- include('js/search.ejs') %>
+</html>

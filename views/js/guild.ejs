@@ -1,0 +1,18 @@
+<script>
+    function search() {
+        window.location.href = '/?type=' + document.getElementById('select').value + '&term=' + document.getElementById('search').value;
+    }
+    async function update() {
+        await fetch('/api/guilds/<%=guild.id%>')
+            .then(response => response.json())
+            .then(data => {
+                data = data.data;
+                if (data) {
+                    document.getElementById('name').innerHTML = data.Name;
+                    document.getElementById('members').innerHTML = data.Members.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+                    document.getElementById('image').src = data.Thumbnail;
+                }
+            })
+    }
+    setInterval(update, 2000);
+</script>

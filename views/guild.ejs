@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="title" content="BGTrack">
+    <meta name="description" content="<%=guild.name%>'s Stats on Polytoria!">
+    <meta property="twitter:title" content="BGTrack">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://polytoria.com/assets/thumbnails/guilds/<%=guild.id%>.png">
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url"
+        content="https://polytoria.com/assets/thumbnails/guilds/<%=guild.id%>.png">
+    <link rel="shortcut icon" href="favicon.ico">
+    <meta property="og:description" content="<%=guild.name%>'s Stats on Polytoria!">
+    <meta property="twitter:description" content="<%=guild.name%>'s Stats on Polytoria!">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title><%=guild.name%>'s Guild Stats - BGTrack</title>
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+        integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <%- include('css/guild.ejs') %>
+    <%- include('js/tracking.ejs') %>
+</head>
+
+<body>
+    <%- include('navbar.ejs') %>
+        <br>
+        <br>
+        <center>
+            <div class="main">
+                <img src="<%=guild.stats.Thumbnail%>" class="profile" id="image">
+                <h1 class="name" id="name">
+                    <%=guild.stats.Name%>
+                </h1>
+                <div class="stats">
+                    <div>
+                        <h1 class="stat_value" id="members">
+                            <%=guild.stats.Members.toString().replace( /(\d)(?=(\d{3})+(?!\d))/g, '$1,' );%>
+                        </h1>
+                        <h2 class="stat_title">Members</h2>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="daily_stats">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Date</th>
+                            <th scope="col">Members</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% let Members=0; %>
+                            <% for(var i=0; i < guild.data.length; i++) { %>
+                                <tr>
+                                    <th scope="row">
+                                        <%=guild.data[i].date%>
+                                    </th>
+                                    <td>
+                                        <% if (parseFloat(guild.data[i].Members) - Members <=0) { %>
+                                            <%=(parseFloat(guild.data[i].Members) -
+                                                Members).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,' );%>
+                                                <% } else { %>
+                                                    +<%=(parseFloat(guild.data[i].Members) -
+                                                        Members).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,'
+                                                        );%>
+                                                        <% } %>
+                                                            <% Members=parseFloat(guild.data[i].Members); %>
+                                    </td>
+                                    <% } %>
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">
+                                                    <%=guild.data[guild.data.length-1].date%>
+                                                </th>
+                                                <th scope="col">
+                                                    <%=guild.data[guild.data.length-1].Members.toString().replace(
+                                                        /(\d)(?=(\d{3})+(?!\d))/g, '$1,' );%>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                    </tbody>
+            </div>
+        </center>
+</body>
+<%- include('js/jquery.ejs') %>
+    <%- include('js/search.ejs') %>
+        <%- include('js/guild.ejs') %>
+
+</html>

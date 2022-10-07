@@ -1,0 +1,17 @@
+<div class="navbar">
+    <a href="/"><img src="/images/banner.png" alt="BGTrack Logo" class="banner"></a>
+    
+    <select class="select" id="select">
+        <option value="user" <% if (locals.user) {%>selected<%}%>>User</option>
+        <option value="game" <% if (locals.game) {%>selected<%}%>>Game</option>
+        <option value="item" <% if (locals.item) {%>selected<%}%>>Item</option>
+        <option value="guild" <% if (locals.guild) {%>selected<%}%>>Guild</option>
+    </select>
+
+    <div class="search-container">
+        <input type="text" class="search-box" placeholder="Search" id="search">
+        <button class="search-button" onclick="search()">
+            <img src="/images/search.svg" alt="Search Icon" class="search-icon">
+        </button>
+    </div>
+</div>
